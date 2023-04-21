@@ -1,0 +1,161 @@
+﻿
+@{
+    ViewBag.Title = "EditProfile";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<div class="card mb-4" style="width: 599px;align-content: center;margin: 0 auto;background-color: #f2f6fc;">
+    <div class="card-header" style="background-color: #75a0ec8a;color: #fff;">Change Password</div>
+    <div class="card-body">
+        <form id="registration">
+            <div class="container">
+                <label>Current Password</label>
+                <div class="mb-3" id="current">
+                    <div class="form-group pass_show">
+                        <input type="password" value="" class="form-control" id="pass" placeholder="Current Password">
+                        <span id="mess"></span>
+                    </div>
+                </div>
+                <div class="mb-3" id="attid" style="display:none">
+                    <label>New Password</label>
+                    <div class="form-group pass_show">
+                        <input type="password" value="" class="form-control" id="NewPass" name="NewPass" placeholder="New Password">
+                    </div>
+                </div>
+                <div class="mb-3" id="atti" style="display:none">
+                    <label>Confirm Password</label>
+                    <div class="form-group pass_show">
+                        <input type="password" value="" class="form-control" id="Confirm" name="Confirm" placeholder="Confirm Password">
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit" id="save" style="display:none" al">Save changes</button>
+
+                <span id="success"></span>
+
+            </div>
+        </form>
+    </div>
+
+</div>
+<style>
+    .dark-edition .pass_show .form-control {
+        color: #000;
+    }
+</style>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+<script>
+    $("#registration").validate({
+                    rules: {
+
+                        NewPass: {
+                            required: true,
+                            minlength: 6
+                        },
+                        Confirm: {
+                            required: true,
+                            minlength: 6,
+                            equalTo: "#NewPass"
+                        },
+
+                    },
+
+                    messages: {
+
+
+                        NewPass: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 6 characters long"
+                        },
+                        Confirm: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 6 characters long",
+                            equalTo: 'Please enter the same password as above'
+                        },
+
+
+                    },
+                    submitHandler: function (form) {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("EditPass", "EditProfile")",
+                            data: $(form).serializeArray(),
+                            success: function () {
+                                $("#success").html('<font color = "Green">Change password success! Please login again </font>');
+                                setTimeout(function () {// wait for 5 secs(2)
+                            window.location.href = "@Url.Action("Login", "Login")" // then reload the page.(3)
+                        }, 2000);
+                            },
+                            error: function () {
+                                console.log();
+                            }
+                        });
+                    }
+                });
+</script>
+
+<style>
+    .pass_show {
+        position: relative
+    }
+
+        .pass_show .ptxt {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            z-index: 1;
+            color: #f36c01;
+            margin-top: -10px;
+            cursor: pointer;
+            transition: .3s ease all;
+        }
+
+            .pass_show .ptxt:hover {
+                color: #333333;
+            }
+</style>
+
+@*<script>
+    $(document).ready(function () {
+        $('.pass_show').append('<span class="ptxt">Show</span>');
+    });
+
+
+    $(document).on('click', '.pass_show .ptxt', function () {
+
+        $(this).text($(this).text() == "Show" ? "Hide" : "Show");
+
+        $(this).prev().attr('type', function (index, attr) { return attr == 'password' ? 'text' : 'password'; });
+
+    });
+</script>*@
+<script type="text/javascript">
+    $("#pass").change(function () {
+
+        $.post("@Url.Action("Check", "EditProfile")",
+            {
+                currentpass: $("#pass").val()
+            },
+            function (data) {
+                if (data == 0) {
+
+                    $("#mess").html('<font color = "Red">Password is incorrect, please try again </font>');
+                }
+
+                else {
+                    $("#mess").html('<font color = "Green"> </font>');
+                    document.getElementById("attid").style.display = 'inline';
+                    document.getElementById("atti").style.display = 'inline';
+                    document.getElementById("save").style.display = 'inline';
+                }
+
+            });
+    });
+</script>
+
+
+

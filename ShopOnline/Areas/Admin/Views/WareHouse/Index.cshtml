@@ -1,0 +1,60 @@
+﻿
+@model IEnumerable<ShopOnline.Models.WareHouse>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-primary">
+            <h4 class="card-title ">Warehouse Table</h4>
+            <a class="btn btn-white  btn-sm" href="@Url.Action("InsertWareHouse","WareHouse")">Add</a>
+        </div>
+        <div class="row">
+
+            <div class="col-8 col-sm-12" style=" width:100%">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.WareHouseID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ProductID)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AmountInput)
+                        </th>
+
+                        <td>
+                            @Html.DisplayNameFor(model => model.DateInput)
+                        </td>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(ModelItem => item.WareHouseID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(ModelItem => item.ProductID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(ModelItem => item.AmountInput)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(ModelItem => item.DateInput)
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="col-4 col-sm-6">
+
+            </div>
+        </div>
+        </div>
+    </div>
+

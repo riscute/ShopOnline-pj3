@@ -1,0 +1,17 @@
+﻿@model List<ShopOnline.Models.Product>
+@foreach (var item in Model)
+{
+    <div class="item">
+        <div class="block-4 text-center">
+            <figure class="block-4-image">
+                <img src="~/Content/Images/@Url.Content(item.Image)" alt="Image placeholder" class="img-fluid">
+            </figure>
+            <div class="block-4-text p-4">
+                <h3><a href="#">@String.Concat(item.ProductName.Take(20))...</a></h3>
+                <p class="mb-0">@String.Concat(item.Detail.Take(120))...</p>
+                <p class="text-primary font-weight-bold">$@item.Price</p>
+            </div>
+        </div>
+    </div>
+}
+

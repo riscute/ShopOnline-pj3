@@ -1,0 +1,21 @@
+﻿
+@model  List<ShopOnline.Models.CategoryProduct>
+
+<ul class="list-unstyled mb-0">
+    @foreach (var item in Model)
+    {
+        <li class="mb-1"><a href="@Url.Action("FindProByCate", "Product", new { cateId = item.CateID })" class="d-flex">@item.CateName</a></li>
+
+    }
+</ul>
+<style>
+    .list-unstyled a {
+        color: #ffc107;
+        font-family: cursive;
+    }
+        .list-unstyled a:hover {
+            text-decoration: none;
+            color: #ff5517;
+        }
+</style>
+

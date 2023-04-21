@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = "Failed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron text-center">
+    <h1 class="display-3">Oops!</h1>
+    <p class="lead">Sending contact failed.</p>
+    <p class="lead">
+        Please re-enter your information in the contact form.
+    </p>
+    <p class="lead">
+        <a class="btn btn-primary btn-sm" role="button" href="@Url.Action("Contact","Home")">Continue to Contact</a>
+    </p>
+</div>
+

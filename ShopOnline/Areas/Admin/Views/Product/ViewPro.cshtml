@@ -1,0 +1,175 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<ShopOnline.Models.Product>
+
+@{
+    ViewBag.Title = "Viewproduct";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@using (Html.BeginForm("Search", "Product", FormMethod.Get))
+{
+    <form class="navbar-form">
+        <div class="input-group no-border" style="width: 300px;">
+            <input type="text" name="keyword" class="form-control" placeholder="Search name or productId" value="@ViewBag.keyword">
+            <button type="submit" class="btn btn-default btn-round btn-just-icon">
+                <i class="material-icons">search</i>
+                <div class="ripple-container"></div>
+            </button>
+        </div>
+    </form>
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header card-header-primary">
+            <h4 class="card-title ">Product Table</h4>
+            <a class="btn btn-white  btn-sm" href="@Url.Action("Pro","Product")">Add Product</a>
+            <a class="btn btn-white  btn-sm" href="@Url.Action("ViewCategory","Category")">Add Category</a>
+        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Image
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Waranty
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Category
+                </th>
+               
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        <img style="width:70px; height: 50px" src="~/Content/Images/@Url.Content(item.Image)" alt="Image placeholder" class="img-fluid">
+                        @*@Html.DisplayFor(modelItem => item.Image)*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Detail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Warranty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CateProduct)
+                    </td>
+                   
+                    <td>
+
+                        @Html.ActionLink("Edit", "EditPro", new { id = item.ProductID }, new { @class = "btn btn-primary pull-right btn-sm edit" })
+
+                        <span class="btn btn-primary pull-right btn-sm">
+                            <a href="#" onclick="if (confirm('Do you want to delete?') == true) { location.href = '/Admin/Product/DeletePro?id=@item.ProductID' }" class="prod_buy">Delete</a>
+                        </span>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="pagination font-alt">
+                @Html.PagedListPager(Model, page => Url.Action("ViewPro", new
+                { page, currentFilter = ViewBag.CurrentFilter }))
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .edit {
+        width: 80px;
+    }
+
+    .table tr {
+        border-bottom: 1.3px solid;
+    }
+
+        .table tr td {
+        }
+
+    .pagination {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+        .pagination > li {
+            width: 25px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 1px solid;
+            border-radius: 10%;
+            background-color: rebeccapurple;
+        }
+
+            .pagination > li > a:hover,
+            .pagination > li > span:hover,
+            .pagination > li > a:focus,
+            .pagination > li > span:focus {
+                background-color: #eeeeee;
+                width: 25px;
+                color: #000;
+            }
+
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
+            z-index: 2;
+            color: #000000;
+            width: 25px;
+            cursor: default;
+            background: #d4e0fc;
+        }
+
+    .page {
+        width: 350px;
+    }
+
+    .numberpage {
+        width: 155px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        float: inherit;
+    }
+</style>

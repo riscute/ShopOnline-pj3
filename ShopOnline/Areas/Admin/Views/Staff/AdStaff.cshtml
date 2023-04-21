@@ -1,0 +1,163 @@
+﻿@model ShopOnline.Models.Employee
+@{
+    ViewBag.Title = "AdStaff";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
+
+<div class="card">
+    <div class="card-header card-header-primary">
+        <h4 class="card-title">Add Employee</h4>
+        <p class="card-category"></p>
+    </div>
+    @Html.ValidationSummary(false, "", new { @class = "error" })
+<div class="card-body">
+    @*@using (Html.BeginForm("AdStaff", "Staff", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {*@
+    <form method="post" enctype="multipart/form-data" id="addstaff">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.ValidationSummary(true, "", new { @class = "bmd-label-floating" })
+                    @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "bmd-label-floating" })
+                    @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @data_error = "Enter Name" } })
+                    @Html.ValidationMessageFor(x => x.EmployeeName)
+
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "bmd-label-floating" })
+                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @data_error = "Enter Username" } })
+                    @Html.ValidationMessageFor(x => x.UserName)
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "bmd-label-floating" })
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @data_minlength = "6" } })
+                    @Html.ValidationMessageFor(x => x.Password)
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.Position, htmlAttributes: new { @class = "bmd-label-floating" })
+                    <br />
+                    <label class="form-control text-primary">Employee</label>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "bmd-label-floating" })
+                    @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "form-control", @data_error = "Enter Salary" } })
+                    @Html.ValidationMessageFor(x => x.Salary)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(x => x.Phone)
+                            <span id="phonemain"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-md-4">
+                @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "bmd-label-floating" })
+                <input type="file" class="" name="UploadImage" required />
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+            </div>*@
+
+        <input type="submit" value="Create" class="btn btn-primary pull-right" />
+        <div class="clearfix"></div>
+    </form>
+    
+    @*}*@
+</div>
+
+</div>
+<div class="btn btn-primary" style="background: linear-gradient(60deg, #5a50e5, #2e3b7e);">
+    @Html.ActionLink("Back to List", "ViewStaff")
+</div>
+
+<script type="text/javascript">
+            $(document).ready(function () {
+                $("#addstaff").validate({
+                    rules: {
+                        EmployeeName: "required",
+                        UserName: "required",
+                        Salary: "required",
+                        Phone: {
+                            required: true,
+                            number: true,
+                            minlength: 10,
+                            maxlength: 11
+                        },
+                        Password: {
+                            required: true,
+                            minlength: 6
+                        },
+                    },
+
+                    messages: {
+                        EmployeeName: "Please enter employee name",
+                        UserName: "Please enter username",
+                        Salary: "Please enter salary",
+                        Phone: {
+                            required: "Please enter a valid phone number",
+                            minlength: "Your phone must be at least 10 number",
+                            maxlength: "Your phone number up to 11 numbers"
+                        },
+                        Password: {
+                            required: "Please provide a password",
+                            minlength: "Your password must be at least 6 characters long"
+                        },
+                    },
+                    submitHandler: function (form) {
+                        StaffCheck2();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("AdStaff","Staff")",
+                            enctype: "multipart/form-data",
+                            data: $(form).serializeArray(),
+                            success: function () {
+                              
+                            },
+                            error: function () {
+                                console.log();
+                            }
+                        });
+                    }
+                });
+            });
+</script>
+<script>
+    function StaffCheck2() {
+            $.post("@Url.Action("Check2","Staff")",
+                {
+                    phonenumber: $("#Phone").val()
+                },
+                function (data) {
+                    if (data == 0) {
+                        window.location.href = "@Url.Action("ViewStaff","Staff")"
+                    }
+
+                    else {
+                        $("#phonemain").html('<font color = "Red">That phone is exist. Try again with new phone</font>');
+                        $("#Phone").css("border-color", "Red");
+
+                    }
+                });
+        }
+</script>

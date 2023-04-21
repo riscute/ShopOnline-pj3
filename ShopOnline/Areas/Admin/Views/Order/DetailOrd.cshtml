@@ -1,0 +1,102 @@
+﻿@model List<ShopOnline.Models.DetailBill>
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<section class="section-content padding-y">
+    <div class="container">
+        <div class="row_">
+            <main class="col-md-9">
+                <div class="card" style="margin:auto;">
+                    <table class="table table-borderless table-shopping-cart" style="box-shadow: 0 0.15rem 1.75rem 0 rgb(14 19 26 / 53%); border: 1px solid; margin-bottom: 0 !important;">
+                        <thead class="text-muted_">
+                            <tr class="small text-uppercase">
+                                <th scope="col">Product</th>
+                                <th scope="col" width="120">Quantity</th>
+                                <th scope="col" width="120">Price</th>
+                                <th scope="col" width="120">Total</th>
+                                <th scope="col" class="text-right" width="200"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @foreach (var item in Model)
+                            {
+
+                                <tr id="product-@item.BillID">
+                                    <td>
+                                        <figure class="itemside">
+                                            <div class="aside"><img src="~/Content/Images/@item.Product.Image" class="img-sm"></div>
+                                            <figcaption class="info">
+                                                <a href="#" style="color: #fff !important;font-family: emoji;" class="title text-dark">@item.Product.ProductName</a>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <var class="txtQuantity">@item.Amount</var>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+                                            <var class="price">@item.Price</var>
+                                        </div> <!-- price-wrap .// -->
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap">
+
+                                            <var class="price">@item.TotalPrice</var>
+                                        </div> <!-- price-wrap .// -->
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div> <!-- card.// -->
+            </main>
+        </div>
+        <div class="btn btn-primary" style="background: linear-gradient(60deg, #5a50e5, #2e3b7e);">
+            @Html.ActionLink("Back to List", "ViewOrd")
+        </div>
+    </div> <!-- container .//  -->
+</section>
+<style>
+    .section-content {
+        margin-top: 100px;
+    }
+    .text-muted_ {
+        background: linear-gradient(60deg, #5a50e5, #2e3b7e);
+        font-weight: 500;
+        color: #fff !important;
+    }
+
+    .row_ {
+        display: -webkit-box;
+        flex-wrap: wrap;
+        padding: 0rem;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+    .padding-y {
+        min-height: 550px;
+    }
+
+    .table > thead > tr > th {
+        color: #fff !important;
+    }
+
+    .table > tbody > tr {
+        border-bottom: 1.5px solid #baffb685;
+    }
+    .aside img{
+        width:100px;
+    }
+</style>

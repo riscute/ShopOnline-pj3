@@ -1,0 +1,479 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<ShopOnline.Models.Product>
+
+
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Shop</strong></div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section" style="background: #f9ff1426;">
+    <div class="container">
+
+        <div class="row mb-5">
+            <div class="col-md-9 order-2">
+
+                <div class="row">
+                    <div class="col-md-12 mb-5">
+                        <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
+                        <div class="d-flex">
+                            <div class="dropdown mr-1 ml-md-auto">
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Latest
+                                </button>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+                                  
+                                </div>
+
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Reference</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+                                    @*<a class="dropdown-item" href="#">Relevance</a>
+                                        <a class="dropdown-item" href="#">Name, A to Z</a>
+                                        <a class="dropdown-item" href="#">Name, Z to A</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Price, low to high</a>
+                                        <a class="dropdown-item" href="#">Price, high to low</a>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                            <div class="block-4 text-center border" style=" position: relative;box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; ">
+                                @if (item.Amount == 0)
+                                {
+                                    @*<div class="outstock" style="display:inline">Out of stock</div>*@
+
+                                    <div class="ribbon ribbon-top-left"><span style="font-size: 13px;">Out of stock</span></div>
+
+                                }
+                                else
+                                {
+                                    <div class="ribbon ribbon-top-left" style="display:none"><span>Out of stock</span></div>
+
+                                }
+
+                                <figure class="block-4-image">
+                                    <a href="@Url.Action("ProductDetail","Product",new {id = item.ProductID })"><img src="~/Content/Images/@Url.Content(item.Image)" alt="Image placeholder" class="img-fluid"></a>
+                                </figure>
+                                <div class="block-4-text p-4">
+                                    <h3><a href="@Url.Action("ProductDetail","Product",new {id = item.ProductID })" style="font-family: Candara;font-weight: 600;">@item.ProductName</a></h3>
+                                    <p class="text-primary font-weight-bold" style="color:#000!important;">$@item.Price</p>
+                                    <p class="mb-0">
+                                        @if (item.Amount > 0)
+                                        {
+                                            <a class="btn btn-add-cart" style="display: inline;background: #7971ea;color: #fff;" data-id="@item.ProductID">
+                                                Add to <i class="icon-shopping-cart"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-add" style="display: inline;background: #7971ea;color: #fff;" data-id="@item.ProductID">
+                                                Add to <i class="icon-shopping-cart"></i>
+                                            </a>
+
+                                        }
+
+
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+
+                <div class="row" data-aos="fade-up">
+                    <div class="col-md-12 text-center">
+                        <div class="site-block-27">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new
+                            { page, currentFilter = ViewBag.CurrentFilter }))
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 order-1 mb-5 mb-md-0">
+                <div class="border p-4 rounded mb-4"
+                     style="background: white;box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+                    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+                    border-radius: 1.25rem!important;">
+                    <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
+
+                    @Html.Action("ProductCategory", "Product")
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="site-section site-blocks-2">
+                    <div class="row justify-content-center text-center mb-5">
+                        <div class="col-md-7 site-section-heading pt-4">
+                            <h2>Categories</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
+                            <a class="block-2-item" href="#">
+                                <figure class="image">
+                                    <img src="~/asset/images/okhoa.jpg" alt="" class="img-fluid">
+                                </figure>
+                                <div class="text">
+                                    <span class="text-uppercase">Collections</span>
+                                    <h3>Home</h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
+                            <a class="block-2-item" href="#">
+                                <figure class="image">
+                                    <img src="~/asset/images/quatdien.jpg" alt="" class="img-fluid">
+                                </figure>
+                                <div class="text">
+                                    <span class="text-uppercase">Collections</span>
+                                    <h3>Tool</h3>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
+                            <a class="block-2-item" href="#">
+                                <figure class="image">
+                                    <img src="~/asset/images/deothe.jpg" alt="" class="img-fluid">
+                                </figure>
+                                <div class="text">
+                                    <span class="text-uppercase">Collections</span>
+                                    <h3>Learning Tools</h3>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+
+
+    .ribbon {
+        width: 140px;
+        height: 140px;
+        overflow: hidden;
+        position: absolute;
+    }
+
+        .ribbon::before,
+        .ribbon::after {
+            position: absolute;
+            z-index: -1;
+            content: '';
+            display: block;
+            border: 5px solid #2980b9;
+        }
+
+        .ribbon span {
+            font-size: 13px;
+            position: absolute;
+            display: block;
+            width: 217px;
+            padding: 15px 0;
+            background-color: #db3434;
+            box-shadow: 0 5px 10px rgba(0,0,0,.1);
+            color: #fff;
+            font: 700 18px/1 'Lato', sans-serif;
+            text-shadow: 0 1px 1px rgba(0,0,0,.2);
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+    /* top left*/
+    .ribbon-top-left {
+        top: -10px;
+        left: -10px;
+    }
+
+        .ribbon-top-left::before,
+        .ribbon-top-left::after {
+            border-top-color: transparent;
+            border-left-color: transparent;
+        }
+
+        .ribbon-top-left::before {
+            top: 0;
+            right: 0;
+        }
+
+        .ribbon-top-left::after {
+            bottom: 0;
+            left: 0;
+        }
+
+        .ribbon-top-left span {
+            right: -27px;
+            top: 30px;
+            transform: rotate(-45deg);
+        }
+
+
+
+    .pagination {
+        display: inline-block;
+        padding-left: 0;
+        margin: 20px 0;
+        border-radius: 4px;
+    }
+
+        .pagination > li {
+            display: inline;
+        }
+
+            .pagination > li > a,
+            .pagination > li > span {
+                position: relative;
+                float: left;
+                padding: 6px 12px;
+                margin-left: -1px;
+                line-height: 1.428571429;
+                text-decoration: none;
+                background-color: #ffffff;
+                border: 1px solid #dddddd;
+            }
+
+            .pagination > li:first-child > a,
+            .pagination > li:first-child > span {
+                margin-left: 0;
+                border-bottom-left-radius: 4px;
+                border-top-left-radius: 4px;
+            }
+
+            .pagination > li:last-child > a,
+            .pagination > li:last-child span {
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+            }
+
+            .pagination > li > a:hover,
+            .pagination > li > span:hover,
+            .pagination > li > a:focus,
+            .pagination > li > span:focus {
+                background-color: #eeeeee;
+            }
+
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
+            z-index: 2;
+            color: #ffffff;
+            cursor: default;
+            background-color: #428bca;
+        }
+
+        .pagination > .disabled > span,
+        .pagination > .disabled > a,
+        .pagination > .disabled > a:hover,
+        .pagination > .disabled > a:focus {
+            color: #999999;
+            cursor: not-allowed;
+            background-color: #ffffff;
+            border-color: #dddddd;
+        }
+
+    .pagination-lg > li > a,
+    .pagination-lg > li > span {
+        padding: 10px 16px;
+        font-size: 18px;
+    }
+
+    .pagination-lg > li:first-child > a,
+    .pagination-lg > li:first-child > span {
+        border-bottom-left-radius: 6px;
+        border-top-left-radius: 6px;
+    }
+
+    .pagination-lg > li:last-child > a,
+    .pagination-lg > li:last-child > span {
+        border-bottom-right-radius: 6px;
+        border-top-right-radius: 6px;
+    }
+
+    .pagination-sm > li > a,
+    .pagination-sm > li > span {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .pagination-sm > li:first-child > a,
+    .pagination-sm > li:first-child > span {
+        border-bottom-left-radius: 3px;
+        border-top-left-radius: 3px;
+    }
+
+    .pagination-sm > li:last-child > a,
+    .pagination-sm > li:last-child > span {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px
+    }
+
+    .pager {
+        padding-left: 0;
+        margin: 20px 0;
+        text-align: center;
+        list-style: none;
+    }
+
+        .pager:before,
+        .pager:after {
+            display: table;
+            content: " ";
+        }
+
+        .pager:after {
+            clear: both;
+        }
+
+        .pager:before,
+        .pager:after {
+            display: table;
+            content: " ";
+        }
+
+        .pager:after {
+            clear: both;
+        }
+
+        .pager li {
+            display: inline;
+        }
+
+            .pager li > a,
+            .pager li > span {
+                display: inline-block;
+                padding: 5px 14px;
+                background-color: #ffffff;
+                border: 1px solid #dddddd;
+                border-radius: 15px;
+            }
+
+                .pager li > a:hover,
+                .pager li > a:focus {
+                    text-decoration: none;
+                    background-color: #eeeeee;
+                }
+
+        .pager .next > a,
+        .pager .next > span {
+            float: right;
+        }
+
+        .pager .previous > a,
+        .pager .previous > span {
+            float: left;
+        }
+
+        .pager .disabled > a,
+        .pager .disabled > a:hover,
+        .pager .disabled > a:focus,
+        .pager .disabled > span {
+            color: #999999;
+            cursor: not-allowed;
+            background-color: #ffffff;
+        }
+
+    .outstock {
+        left: 15px;
+        z-index: 1;
+        position: absolute;
+        background-color: #cacacaeb;
+    }
+</style>
+<script>
+    function loadData() {
+        $.ajax({
+            url: '/Cart/CartBag',
+            success: function (res) {
+                $('#CartCount').html(res);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        $(".btn-add").click(function () {
+            $.ajax({
+                success: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Add cart unsuccess',
+                        text: 'The product is sold out',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        });
+
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $(".btn-add-cart").click(function () {
+            $.ajax({
+                url: "/Cart/AddToCart",
+                data: {
+                    productId: $(this).data("id"),
+                },
+                success: function (res) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Add cart success',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    loadData();
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Add cart unsuccess',
+                        text: 'Try Again',
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                }
+            });
+        });
+    });</script>

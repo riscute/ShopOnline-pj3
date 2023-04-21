@@ -1,0 +1,190 @@
+﻿@model IEnumerable<ShopOnline.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-xl px-4 mt-4">
+    <!-- Account page navigation-->
+
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        <div class="col-xl-4">
+            <!-- Profile picture card-->
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">Profile Picture</div>
+                <div class="card-body text-center">
+                    <!-- Profile picture image-->
+                    @foreach (var item in Model)
+                    {
+                        if (item.Image == null)
+                        {
+
+
+                            <img style="width: 200px; height: 200px;" class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                        }
+                        else
+                        {
+                            <img style="width: 200px; height: 200px;" class="img-account-profile rounded-circle mb-2" src="~/asset/images/@item.Image" alt="">
+                        }
+                    }
+                    <!-- Profile picture help block-->
+                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                    <!-- Profile picture upload button-->
+                    <form action=" @Url.Action("UpdateAvartar")" method="post" class="form" enctype="multipart/form-data">
+                        <input type="file" accept="image/png, image/gif, image/jpeg" name="file" style="margin: 10 10 10 10;padding-bottom: 10px 10px;padding: 10px;margin-left: 88px;"/>
+
+                        <!-- Profile picture upload button-->
+                        <button class="btn btn-primary" type="submit">Upload new image</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                <div class="card-body">
+
+                    <form action=" @Url.Action("EditProfile")" method="post" class=" form">
+                        <!-- Form Group (username)-->
+                        @foreach (var item in Model)
+                        {
+                            <input id="id_cus" name="id_cus" value="@item.CusID" type="hidden" class="form-control">
+
+                            <div class="mb-3">
+                                <label class="small mb-1" for="inputUsername">Username (how your name will appear to other users on the site)</label>
+                                <input class="form-control" id="inputUsername" name="inputUsername" type="text" placeholder="Enter your username" value="@item.Email">
+                            </div>
+                            <!-- Form Row-->
+                           
+                                <!-- Form Group (first name)-->
+                                <div class="md-3">
+                                    <label class="small mb-1" for="inputFirstName">Name</label>
+                                    <input class="form-control" id="inputName" name="inputName" type="text" placeholder="Enter your first name" value="@item.CusName">
+                                </div>
+                                <!-- Form Group (last name)-->
+                                <div class="md-3">
+                                    <label class="small mb-1" for="inputLocation">Location</label>
+                                    <input class="form-control" id="inputLocation" name="inputLocation" type="text" placeholder="Enter your location" value="@item.Address">
+                                </div>
+                            
+                            <!-- Form Row        -->
+                            <!--<div class="row gx-3 mb-3">-->
+                            <!-- Form Group (organization name)-->
+                            <!--<div class="col-md-6">
+                                <label class="small mb-1" for="inputOrgName">Organization name</label>
+                                <input class="form-control" id="inputOrgName" type="text" placeholder="Enter your organization name" value="Start Bootstrap">
+                            </div>-->
+                            <!-- Form Group (location)-->
+                            <!--</div>-->
+                            <!-- Form Group (email address)-->
+                            @*<div class="mb-3">
+                                    <label class="small mb-1" for="inputEmailAddress">Password</label>
+                                    <input class="form-control" id="inputPass" name="inputPass" type="password" placeholder="Enter your password" value="@item.Password">
+                                </div>*@
+                            <div class="row gx-3 mb-3">
+                                <div class="col-md-8">
+                                    <label class="small mb-1" for="inputEmailAddress">Password</label>
+                                    <input class="form-control" id="inputPass" name="inputPass" type="password" value="@item.Password" readonly="readonly">
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="@Url.Action("editpass", "EditProfile")" class="btn btn-primary" style="font-size: 14px;font-weight: 200;letter-spacing: 0.1em;top: 32px;">Change Password</a>
+                                    @*<button class="btn btn-primary" type="button" style="font-size: 14px;font-weight: 200;letter-spacing: 0.1em;top: 32px;">Change Password</button>*@
+                                </div>
+                            </div>
+                            <!-- Form Row-->
+                            <div class="row gx-3 mb-3">
+                                <!-- Form Group (phone number)-->
+                                <div class="col-md-6">
+                                    <label class="small mb-1" for="inputPhone">Phone number</label>
+                                    <input class="form-control" name="inputPhone" id="inputPhone" type="tel" placeholder="Enter your phone number" value="@item.Phone">
+                                </div>
+                                <!-- Form Group (birthday)-->
+
+                            </div>
+                            <!-- Save changes button-->
+                            <button class="btn btn-primary" type="submit">Save changes</button>
+                        }
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    body {
+        margin-top: 20px;
+        background-color: #f2f6fc;
+        color: #69707a;
+    }
+
+    .img-account-profile {
+        height: 10rem;
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+        .card .card-header {
+            font-weight: 500;
+        }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control, .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .nav-borders .nav-link.active {
+        color: #0061f2;
+        border-bottom-color: #0061f2;
+    }
+
+    .nav-borders .nav-link {
+        color: #69707a;
+        border-bottom-width: 0.125rem;
+        border-bottom-style: solid;
+        border-bottom-color: transparent;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+</style>
+
+

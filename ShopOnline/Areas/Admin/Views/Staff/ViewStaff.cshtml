@@ -1,0 +1,122 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<ShopOnline.Models.Employee>
+
+@{
+    ViewBag.Title = "ViewStaff";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<form class="navbar-form">
+    <div class="input-group no-border" style="width: 300px;">
+        <input type="text" value="" class="form-control" placeholder="Search...">
+        <button type="submit" class="btn btn-default btn-round btn-just-icon">
+            <i class="material-icons">search</i>
+            <div class="ripple-container"></div>
+        </button>
+    </div>
+</form>
+
+<div class="col-md-12">
+    @*@{var viewadmin = ViewData["ViewAd"] as PagedList.IPagedList<CDstore.Models.Admin>;*@
+    <div class="card">
+        <div class="card-header card-header-primary">
+            <h4 class="card-title ">Employee Table</h4>
+            <a class="btn btn-white  btn-sm" href="@Url.Action("AdStaff","Staff")">Add Employee</a>
+
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class=" text-primary">
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Username
+                    </th>
+                    <th>
+                        Phone
+                    </th>
+                    <th>
+                        Salary
+                    </th>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.EmployeeID</td>
+                                <td>
+                                    @item.EmployeeName
+                                </td>
+                                <td>
+                                    @item.UserName
+                                </td>
+                                <td>
+                                    @item.Phone
+                                </td>
+                                <td>
+                                    @item.Salary
+                                </td>
+                                <td class="text-primary">
+                                    @Html.ActionLink("Edit", "EditStaff", new { id = item.EmployeeID }, new { @class = "btn btn-primary pull-right btn-sm " })
+                                    <span class="btn btn-primary pull-right btn-sm ">
+                                        <a href="#" onclick="if (confirm('Do you want to delete?') == true) { location.href = '/Admin/Staff/DeleteStaff?id=@item.EmployeeID' }" class="prod_buy">Delete</a>
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="pagination font-alt">
+                @Html.PagedListPager(Model, page => Url.Action("ViewStaff", new
+                { page, currentFilter = ViewBag.CurrentFilter }))
+            </div>
+        </div>
+    </div>
+
+</div>
+<style>
+    .pagination {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+        .pagination > li {
+            width: 25px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 1px solid;
+            border-radius: 10%;
+            background-color: rebeccapurple;
+        }
+
+    .page {
+        width: 350px;
+    }
+
+    .numberpage {
+        width: 155px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        float: inherit;
+    }
+</style>
+

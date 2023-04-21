@@ -1,0 +1,280 @@
+﻿@model ShopOnline.Models.Product
+@{
+    ViewBag.Title = "ProductDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bg-light py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-0"><a href="@Url.Action("Index","Home")">Home</a> <span class="mx-2 mb-0">/</span> <a href="@Url.Action("Index","Product")">Shop</a> <span class="mx-2 mb-0">/</span><strong class="text-black">@Model.ProductName</strong></div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <img src="~/Content/Images/@Url.Content(Model.Image)" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h2 class="text-black" style="font-weight:600;">@Model.ProductName</h2>
+                <p>Description: @Model.Detail</p>
+                @*<p class="mb-4">Ex numquam veritatis debitis minima quo error quam eos dolorum quidem perferendis. Quos repellat dignissimos minus, eveniet nam voluptatibus molestias omnis reiciendis perspiciatis illum hic magni iste, velit aperiam quis.</p>*@
+                <p><strong class="text-primary h4" style="color: #fd8fa1!important;">$@Model.Price</strong></p>
+                @*<div class="mb-1 d-flex">
+                        <label for="option-sm" class="d-flex mr-3 mb-3">
+                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
+                        </label>
+                        <label for="option-md" class="d-flex mr-3 mb-3">
+                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-md" name="shop-sizes"></span> <span class="d-inline-block text-black">Medium</span>
+                        </label>
+                        <label for="option-lg" class="d-flex mr-3 mb-3">
+                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-lg" name="shop-sizes"></span> <span class="d-inline-block text-black">Large</span>
+                        </label>
+                        <label for="option-xl" class="d-flex mr-3 mb-3">
+                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> Extra Large</span>
+                        </label>
+                    </div>*@
+                <div class="mb-5">
+                    <div class="input-group mb-3" style="max-width: 120px;">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-primary" id="mi" data-id="@Model.ProductID" type="button">&minus;</button>
+                        </div>
+                        <input type="text" class="form-control text-center" id="ipQuantity" value="1" aria-valuemin="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                        <input type="text" class="form-control text-center" id="ipQuantity1" value="0" style="display:none" aria-valuemin="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" id="plus" data-id="@Model.ProductID" type="button">&plus;</button>
+
+                        </div>
+                    </div>
+                    @if (Model.Amount > 0)
+                    {
+                        <div data-amount="@Model.Amount" style="font-style:italic;">
+                            @Model.Amount product
+                        </div>
+                    }
+                    else
+                    {
+                        <div data-amount="@Model.Amount" >
+                            OUT OF STOCK
+                        </div>
+                    }
+
+                    <span id="mess"></span>
+                </div>
+                <p><a class="btn btn-add-cart" id="add" style="display: inline;background: #fd8fa1;color: #fff;" data-id="@Model.ProductID" data-amount="@Model.Amount">Add To Cart</a></p>
+                <p><a class="btn btn-add-cart" id="stock" style="display:none">The product is temporarily out of stock</a></p>
+
+                <hr style="border-top: 2px solid rgb(0 0 0 / 31%); " />
+                <div class="mb-5" style="min-height:200px;">
+                    <div class="row">
+                        <div class="item col-lg-4 col-md-4 col-sm-12 col-xs-12 d-flex align-items-center" style="color :#000;flex: 0 0 40%;max-width: 36%;font-size: 15px;font-weight: 600;">
+                            <img class="icon_" src="~/asset/images/icon_ship.png" />
+                            <p>Nationwide delivery for orders from $5</p>
+                        </div>
+                        <div class="item col-lg-4 col-md-4 col-sm-12 col-xs-12 d-flex align-items-center" style="color :#000; flex: 0 0 40%; max-width: 30%; font-size: 15px; font-weight: 600;">
+                            <img class="icon_" src="~/asset/images/icon_cod.png" />
+
+                            <p>COD inner city HN, HCM</p>
+                        </div>
+                        <div class="item col-lg-4 col-md-4 col-sm-12 col-xs-12 d-flex align-items-center" style="color: #000; flex: 0 0 40%; max-width: 33%; font-size: 15px; font-weight: 600;">
+                            <img class="icon_" src="~/asset/images/icon_doi tra.png" />
+
+                            <p>Check the goods before receiving</p>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:8px;">
+                        <div class="item col-lg-3 col-md-3 col-sm-12 col-xs-12 d-flex align-items-center" style="display:block !important;max-width: 7%;padding-top: 4%;">
+                            <img src="~/asset/images/icon_policy.png" />
+                        </div>
+                        <div class="item col-lg-9 col-md-9 col-sm-12 col-xs-12 d-flex align-items-center" style="color: #000;font-size: 15px;
+    font-weight: 600;display:block !important;">
+
+                            <p>Support to ship $1 for orders from $15 in Hanoi and HCM city</p>
+                            <p>Support ship $2 for orders from $30 other areas</p>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="site-section block-3 site-blocks-2 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 site-section-heading text-center pt-4">
+                <h2>Some Other Products</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nonloop-block-3 owl-carousel">
+                   @Html.Action("ListPro", "Product")
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    .icon_ {
+        padding-right: 7px;
+    }
+
+    .align-items-center {
+        -ms-flex-align: center !important;
+        align-items: center !important;
+    }
+
+    .d-flex {
+        display: -ms-flexbox !important;
+        display: flex !important;
+    }
+
+    .blk-policy .item {
+        background: url(~/asset/images/icon_ship.png) left center no-repeat;
+    }
+
+    .blk-policy .item {
+        margin-top: 0;
+        padding: 0 0 0 35px;
+        line-height: 1.3;
+        font-size: 16px;
+    }
+</style>
+
+<script>
+    /// cart bag
+    function loadData() {
+        $.ajax({
+            url: '/Cart/CartBag',
+            success: function (res) {
+                $('#CartCount').html(res);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+ // add cart
+    $(document).ready(function () {
+        $(".btn-add-cart").click(function () {
+            $.ajax({
+                url: "@Url.Action("AddToCartDetail", "Cart")",
+                data: {
+                    productId: $(this).data('id'),
+                    quantity: $("#ipQuantity").val(),
+                    amount: $(this).data('amount')
+                },
+                success: OnSuccess,
+                failure: function (respone) {
+                    alert(respone);
+                }
+            });
+        });
+    });
+    function OnSuccess(respone) {
+        switch (respone) {
+            case "1":
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Add cart unsuccess',
+                    text: 'Double check the purchase quantity',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+                break;
+            case "2":
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Add cart success',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+                loadData();
+                break;
+            case "3":
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Add cart unsuccess',
+                    text: 'Exceed the quantity already in stock',
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+                break;
+        }
+
+    }
+
+</script>
+
+<script type="text/javascript">
+    // check qty
+    let a = document.querySelector("#ipQuantity");
+    $(document).ready(function () {
+        $('#ipQuantity').change(function () {
+            if (parseInt($(this).val()) > @Model.Amount) {
+                var msg = $("#mess");
+                msg.show();
+                msg.css("color", "red");
+                msg.html("Do not exceed the quantity");
+                $(this).focus();
+                a.value = @Model.Amount;
+            } else {
+                var msg = $("#mess");
+                msg.show();
+                msg.css("color", "green");
+                msg.html("");
+                $(this).focus();
+
+            }
+
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    let addBtn = document.querySelector("#mi");
+    let subBtn = document.querySelector("#plus");
+    let qty = document.querySelector("#ipQuantity");
+    $("#mi").click(function () {
+        qty.value = parseInt($("#ipQuantity").val()) - 1;
+        if (qty.value <= 1) {
+            qty.value = 1;
+        }
+        if (@Model.Amount == 0) {
+            qty.value = 0;
+            document.getElementById("stock").style.display = 'inline';
+            document.getElementById("add").style.display = 'none';
+        }
+        });
+    $("#plus").click(function () {
+        qty.value = parseInt($("#ipQuantity").val()) + 1;
+        if (qty.value >= @Model.Amount) {
+            qty.value = @Model.Amount;
+        }
+         if (@Model.Amount == 0) {
+            qty.value = 0;
+            document.getElementById("stock").style.display = 'inline';
+            document.getElementById("add").style.display = 'none';
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    if (@Model.Amount == 0) {
+        document.getElementById("ipQuantity1").style.display = 'inline';
+        document.getElementById("ipQuantity").style.display = 'none';
+        document.getElementById("stock").style.display = 'inline';
+        document.getElementById("add").style.display = 'none';
+    }
+</script>

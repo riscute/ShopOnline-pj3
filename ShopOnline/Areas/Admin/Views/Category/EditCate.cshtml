@@ -1,0 +1,51 @@
+﻿@model ShopOnline.Models.CategoryProduct
+@{
+    ViewBag.Title = "EditCate";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card">
+        <div class="card-header card-header-primary">
+            <h4 class="card-title">Category</h4>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.CateID)
+        </div>
+        <div class="card-body">
+            <form action="" method="post" class="form">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CateName, htmlAttributes: new { @class = "bmd-label-floating" })
+                           
+                                @Html.EditorFor(model => model.CateName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.CateName, "", new { @class = "text-danger" })
+                            
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "bmd-label-floating" })
+                            
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.Status)
+                                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                                </div>
+                            
+                        </div>
+                    </div>
+
+
+                </div>
+                <input type="submit" value="Save" class="btn btn-primary pull-right" />
+            </form>
+        </div>
+    </div>
+}
+
+<div class="btn btn-primary">
+    @Html.ActionLink("Back to List", "ViewCategory")
+</div>

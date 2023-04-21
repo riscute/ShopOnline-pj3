@@ -1,0 +1,97 @@
+﻿@model ShopOnline.Models.Product
+
+@{
+    ViewBag.Title = "EditPro";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="card">
+
+    <div class="card-header card-header-primary">
+        <h4 class="card-title">Product Manage</h4>
+
+        <p class="card-category"></p>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("EditPro", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <form method="post" class="form">
+
+                <div class="row">
+
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            @Html.ValidationSummary(true, "", new { @class = "bmd-label-floating" })
+                            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CateProduct, htmlAttributes: new { @class = "bmd-label-floating" })
+
+                            @Html.DropDownListFor(model => model.CateProduct, (SelectList)ViewBag.listCate, new { @class = "form-control text-primary" })
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Warranty, htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.EditorFor(model => model.Warranty, new { htmlAttributes = new { min = 0, @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", disabled = true } })
+                            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Status</label>
+                            <input type="checkbox" class="check-box" style="margin-left: 10px;">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-8">
+                        <div class="form-group">
+
+
+                            @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "bmd-label-floating" })
+                            @Html.EditorFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+
+                        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "bmd-label-floating" })
+                        <input type="file" class="" name="UploadImage" required />
+                        @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+
+
+
+                    </div>
+                </div>
+                <input type="submit" value="Update" class="btn btn-primary pull-right" />
+                <div class="clearfix"></div>
+            </form>
+        }
+    </div>
+
+
+</div>
